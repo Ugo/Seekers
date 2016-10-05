@@ -11,6 +11,8 @@ There are other dependencies used in the pom files (spring boot, jboss resteasy)
 
 ## Build the project
 ### Front end
+There is nothing particular to do here. I tested on the server lighttpd. There are only two files for the front end (index.html and callAverage.js). So it is quite straightforward.
+The only remark here is that I configured the lighttpd server on port 9090, it has to be the same port with the value defined in the annotation CrossOrigin in the ServicesController class of the DataProducer otherwise it may not work. 
 
 ### Data Consumer
 The data consumer part has been built on top of spring boot, so the project already contains an embedded server. There is then no need to deploy it in a server. There are 3 ways to start it.
