@@ -6,3 +6,18 @@ Simple tool to compute average of prices. The project is composed of a front end
 - Java 1.8
 - maven 3.3.9
 - mongoDB 3.2.10
+
+There are other dependencies used in the pom files (spring boot, jboss resteasy) but they don't need any installation, they will be downloaded at the first compile with maven.
+
+## Build the project
+### Front end
+
+### Data Consumer
+The data consumer part has been built on top of spring boot, so the project already contains an embedded server. There is then no need to deploy it in a server. There are 3 ways to start it.
+- In eclipse, run Application class as Java application
+- Start it using maven with the following command: `./mvnw spring-boot:run`
+- Build the jar with the command `./mvnw clean package` and then run the jar with the command `java -jar target/DataConsumer-0.1-SNAPSHOT.jar` 
+
+### Data Producer
+Finally the data producer is a simple java program that can be run either directly from eclipse either from the jar once built. The project can be built using the command `mvn clean package` and then run with the command `java -jar target/DataProducer.jar`. 
+
