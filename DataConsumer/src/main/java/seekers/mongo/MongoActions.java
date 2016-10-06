@@ -77,11 +77,10 @@ public class MongoActions {
 			while (cursor.hasNext()) {
 				double val = (Double) cursor.next().get(props.getPriceField());
 				sum = sum + val;
-				System.out.println("value retrieved:" + val);
 				count++;
 			}
 			average = sum / count;
-			System.out.println("average is " + sum / count);
+			System.out.println("The average is " + sum / count + " from the last " + count + " prices.");
 
 		} catch (MongoException e) {
 			e.printStackTrace();

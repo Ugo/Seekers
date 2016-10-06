@@ -13,7 +13,7 @@ import java.text.SimpleDateFormat;
  */
 public class dataProducerClient {
 
-	private static int INTERVAL_IN_MS = 1000;
+	private static int DEFAULT_INTERVAL_IN_MS = 1000;
 	private static String SERVICE_ADDRESS = "http://localhost:8080";
 	private static String SERVICE_NAME = "addprice";
 	private static String PRICE_ARGUMENT_NAME = "price";
@@ -22,6 +22,15 @@ public class dataProducerClient {
 	private static DecimalFormat df = new DecimalFormat("###.##");
 
 	public static void main(String[] args) throws InterruptedException {
+		int intervalInMs = DEFAULT_INTERVAL_IN_MS;
+		if (args != null && args.length>0){
+			try {
+				intervalInMs = Integer.parseInt(args[0]);
+			} catch (NumberFormatException e) {
+				intervalInMs = DEFAULT_INTERVAL_IN_MS;
+			}
+		}
+		
 		// only for logging purposes
 		SimpleDateFormat time_formatter = new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss.SSS");
 
@@ -36,7 +45,7 @@ public class dataProducerClient {
 			}
 
 			// sleep to have intervals between two prices
-			Thread.sleep(INTERVAL_IN_MS);
+			Thread.sleep(intervalInMs);
 		}
 
 	}

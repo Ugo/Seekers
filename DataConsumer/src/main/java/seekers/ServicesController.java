@@ -24,13 +24,17 @@ public class ServicesController {
 	/**
 	 * Webservice to compute the average of the last N prices
 	 * 
+	 * NOTE: if CrossOrigin is not defined with the port used by the server (in
+	 * case it is on localhost as well) from which request are coming, then the
+	 * queries can be blocked so this should be defined.
+	 * 
 	 * @param content
 	 * @return
 	 */
 	@CrossOrigin(origins = "http://localhost:9090")
 	@RequestMapping("/average")
 	public AverageResponse computeAverage(@RequestParam(value = "content", defaultValue = "1") String content) {
-
+		DecimalFormat df = new DecimalFormat("###.##");
 		int numberLastPrices = 0;
 		try {
 			// simple check on the content sent by the form
@@ -38,7 +42,7 @@ public class ServicesController {
 		} catch (NumberFormatException e) {
 			return new AverageResponse(counter.incrementAndGet(), "Please enter an integer");
 		}
-		DecimalFormat df = new DecimalFormat("###.##");
+		
 		return new AverageResponse(counter.incrementAndGet(),
 				df.format(MongoActions.getAverageLastPrices(numberLastPrices)));
 	}
@@ -54,7 +58,7 @@ public class ServicesController {
 
 		SimpleDateFormat time_formatter = new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss.SSS");
 		System.out.println(
-				"Price: " + price.getPrice() + " at " + time_formatter.format(price.getDate()) + " has been inserted");
+				"Price received: " + price.getPrice() + " created at " + time_formatter.format(price.getDate()) + " has been inserted");
 		MongoActions.insertNewPrice(price.getPrice(), price.getDate());
 	}
 }
