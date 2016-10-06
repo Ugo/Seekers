@@ -39,9 +39,9 @@ public class dataProducerClient {
 			double price = getRandomPrice();
 			try {
 				sendPrice(price, date);
-				System.out.println("Price sent: " + price + " created at " + time_formatter.format(date));
+				System.out.println("[SUCCESS] Price sent: " + price + " created at " + time_formatter.format(date));
 			} catch (IOException e) {
-				e.printStackTrace();
+				System.out.println("[FAIL] Failed to send the Price: " + price + " created at " + time_formatter.format(date));
 			}
 
 			// sleep to have intervals between two prices
