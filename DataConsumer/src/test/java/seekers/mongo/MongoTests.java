@@ -33,8 +33,8 @@ public class MongoTests extends MongoUtils {
 		long dateQueried = 0;
 		if (cursor.hasNext()) {
 			Document doc = cursor.next();
-			priceQueried = (Double) doc.get(MongoActions.connection.getPriceField());
-			dateQueried = (Long) doc.get(MongoActions.connection.getPricetimeField());
+			priceQueried = (Double) doc.get(MongoActions.props.getPriceField());
+			dateQueried = (Long) doc.get(MongoActions.props.getPricetimeField());
 			count++;
 		}
 
@@ -63,13 +63,13 @@ public class MongoTests extends MongoUtils {
 		}
 
 		MongoCursor<Document> cursor = getAllDocuments()
-				.sort(new BasicDBObject(MongoActions.connection.getPricetimeField(), 1)).iterator();
+				.sort(new BasicDBObject(MongoActions.props.getPricetimeField(), 1)).iterator();
 		List<Double> listRetrievedPrices = new ArrayList<>();
 		List<Long> listRetrievedDates = new ArrayList<>();
 		while (cursor.hasNext()) {
 			Document doc = cursor.next();
-			listRetrievedPrices.add((Double) doc.get(MongoActions.connection.getPriceField()));
-			listRetrievedDates.add((Long) doc.get(MongoActions.connection.getPricetimeField()));
+			listRetrievedPrices.add((Double) doc.get(MongoActions.props.getPriceField()));
+			listRetrievedDates.add((Long) doc.get(MongoActions.props.getPricetimeField()));
 		}
 
 		assertEquals(listDates.size(), listRetrievedDates.size());

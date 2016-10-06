@@ -19,8 +19,8 @@ public abstract class MongoUtils {
 	// change the dbName and collectionName in order to use separate
 	// db/collection for the unit tests
 	{
-		MongoActions.connection.setDBName("unitTestDB");
-		MongoActions.connection.setCollectionName("unitTestCollection");
+		MongoActions.props.setDBName("unitTestDB");
+		MongoActions.props.setCollectionName("unitTestCollection");
 	}
 
 	MongoClient mongoClient;
@@ -30,7 +30,7 @@ public abstract class MongoUtils {
 	 */
 	@Before
 	public void init() {
-		mongoClient = new MongoClient(MongoActions.connection.getHost(), MongoActions.connection.getPort());
+		mongoClient = new MongoClient(MongoActions.props.getHost(), MongoActions.props.getPort());
 		clearCollection();
 	}
 
@@ -46,8 +46,8 @@ public abstract class MongoUtils {
 	 * Simple method to clear a collection in mongo
 	 */
 	public void clearCollection() {
-		MongoDatabase db = mongoClient.getDatabase(MongoActions.connection.getDBName());
-		MongoCollection<Document> table = db.getCollection(MongoActions.connection.getCollectionName());
+		MongoDatabase db = mongoClient.getDatabase(MongoActions.props.getDBName());
+		MongoCollection<Document> table = db.getCollection(MongoActions.props.getCollectionName());
 		table.drop();
 	}
 
@@ -55,8 +55,8 @@ public abstract class MongoUtils {
 	 * Simple method to return all the documents of a collection in mongo
 	 */
 	public FindIterable<Document> getAllDocuments() {
-		MongoDatabase db = mongoClient.getDatabase(MongoActions.connection.getDBName());
-		MongoCollection<Document> table = db.getCollection(MongoActions.connection.getCollectionName());
+		MongoDatabase db = mongoClient.getDatabase(MongoActions.props.getDBName());
+		MongoCollection<Document> table = db.getCollection(MongoActions.props.getCollectionName());
 		FindIterable<Document> iterable = table.find();
 
 		return iterable;

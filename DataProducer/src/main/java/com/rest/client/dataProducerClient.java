@@ -1,6 +1,7 @@
 package com.rest.client;
 
 import java.io.IOException;
+import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.text.DecimalFormat;
@@ -29,9 +30,8 @@ public class dataProducerClient {
 			double price = getRandomPrice();
 			try {
 				sendPrice(price, date);
-				System.out.println("Price: " + price + " sent at " + time_formatter.format(date));
+				System.out.println("Price sent: " + price + " created at " + time_formatter.format(date));
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 
@@ -56,20 +56,28 @@ public class dataProducerClient {
 	 * 
 	 * @param price
 	 * @param date
-	 * @throws IOException 
+	 * @throws IOException
 	 */
 	public static void sendPrice(double price, long date) throws IOException {
-			URL url = new URL(SERVICE_ADDRESS + "/" + SERVICE_NAME + "?" + PRICE_ARGUMENT_NAME + "=" + price + "&"
-					+ DATE_ARGUMENT_NAME + "=" + date);
-			HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-			conn.setRequestMethod("GET");
-			conn.setRequestProperty("Accept", "application/json");
+		// Define the url where the query will be performed
+		URL url = new URL(SERVICE_ADDRESS + "/" + SERVICE_NAME);
+		HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+		conn.setDoOutput(true);
+		conn.setRequestMethod("POST");
+		conn.setRequestProperty("Content-Type", "application/json");
 
-			if (conn.getResponseCode() != 200) {
-				throw new RuntimeException("Failed : HTTP error code : " + conn.getResponseCode());
-			}
+		// build the json that will be sent
+		// note: there is probably a better way to this
+		String jsonInput = "{\"" + PRICE_ARGUMENT_NAME + "\":" + price + ",\"" + DATE_ARGUMENT_NAME + "\":" + date + "}";
+		OutputStream os = conn.getOutputStream();
+		os.write(jsonInput.getBytes());
+		os.flush();
 
-			conn.disconnect();		
+		if (conn.getResponseCode() != 200) {
+			throw new RuntimeException("Failed : HTTP error code : " + conn.getResponseCode());
+		}
+
+		conn.disconnect();
 	}
 
 }

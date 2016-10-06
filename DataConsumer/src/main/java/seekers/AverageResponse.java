@@ -1,5 +1,8 @@
 package seekers;
 
+/**
+ * Response object sent back by the service.
+ */
 public class AverageResponse {
 
     private final long id;

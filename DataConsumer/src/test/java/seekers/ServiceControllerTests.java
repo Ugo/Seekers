@@ -27,9 +27,12 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mongodb.client.MongoCursor;
 
 import seekers.mongo.MongoActions;
@@ -47,6 +50,9 @@ public class ServiceControllerTests extends MongoUtils {
 
 	@Autowired
 	private MockMvc mockMvc;
+
+	@Autowired
+	ObjectMapper objectMapper;
 
 	/**
 	 * Simple test on the average service
@@ -70,9 +76,12 @@ public class ServiceControllerTests extends MongoUtils {
 
 		double price = 10;
 		long date = System.currentTimeMillis();
+		
 		// call on the webservice
-		this.mockMvc.perform(get("/addprice").param("price", "" + price).param("date", "" + date)).andDo(print())
-				.andExpect(status().isOk());
+		this.mockMvc
+				.perform(MockMvcRequestBuilders.post("/addprice").contentType(MediaType.APPLICATION_JSON)
+						.content(objectMapper.writeValueAsBytes(new Price(price, date))))
+				.andDo(print()).andExpect(status().isOk());
 
 		// then check that the db is not empty
 		MongoCursor<Document> cursor = getAllDocuments().iterator();
@@ -81,8 +90,8 @@ public class ServiceControllerTests extends MongoUtils {
 		long dateTemp = 0;
 		while (cursor.hasNext()) {
 			Document doc = cursor.next();
-			priceTemp = (Double) doc.get(MongoActions.connection.getPriceField());
-			dateTemp = (Long) doc.get(MongoActions.connection.getPricetimeField());
+			priceTemp = (Double) doc.get(MongoActions.props.getPriceField());
+			dateTemp = (Long) doc.get(MongoActions.props.getPricetimeField());
 			count++;
 		}
 		assertEquals(count, 1);

@@ -4,7 +4,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 /**
- * Main application to start for the backend
+ * Main application starting the backend
  */
 @SpringBootApplication
 public class Application {
