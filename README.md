@@ -21,5 +21,4 @@ The data consumer part has been built on top of spring boot, so the project alre
 - Build the jar with the command `./mvnw clean package` and then run the jar with the command `java -jar target/DataConsumer-0.1-SNAPSHOT.jar` 
 
 ### Data Producer
-Finally the data producer is a simple java program that can be run either directly from eclipse either from the jar once built. The project can be built using the command `mvn clean package` and then run with the command `java -jar target/DataProducer.jar`. 
-
+Finally the data producer is a simple java program that can be run either directly from eclipse either from the jar once built. The project can be built using the command `mvn clean package` and then run with the command `java -jar target/DataProducer.jar`. The default interval between two prices is 1000ms (1sec), this value can be modified at runtime, just add the new value in the call. For example to reduce the interval to 500ms you should call `java -jar target/DataProducer.jar 500`.
