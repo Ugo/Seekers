@@ -64,6 +64,8 @@ public class ServiceControllerTests extends MongoUtils {
 		long dateTest = System.currentTimeMillis();
 		MongoActions.insertNewPrice(priceTest, dateTest);
 
+		// call the webservice, check that the status is ok and verify the value
+		// returned by the service.
 		this.mockMvc.perform(get("/average")).andDo(print()).andExpect(status().isOk())
 				.andExpect(jsonPath("$.content").value(priceTest));
 	}
@@ -76,14 +78,15 @@ public class ServiceControllerTests extends MongoUtils {
 
 		double price = 10;
 		long date = System.currentTimeMillis();
-		
+
 		// call on the webservice
 		this.mockMvc
 				.perform(MockMvcRequestBuilders.post("/addprice").contentType(MediaType.APPLICATION_JSON)
 						.content(objectMapper.writeValueAsBytes(new Price(price, date))))
 				.andDo(print()).andExpect(status().isOk());
 
-		// then check that the db is not empty
+		// then check that the collection contains only one element with the
+		// correct value
 		MongoCursor<Document> cursor = getAllDocuments().iterator();
 		int count = 0;
 		double priceTemp = 0;

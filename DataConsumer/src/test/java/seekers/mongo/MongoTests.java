@@ -48,7 +48,7 @@ public class MongoTests extends MongoUtils {
 	 */
 	@Test
 	public void insertNewPriceSeveralInsertion() throws Exception {
-		// insert one element in the db
+		// insert several elements in the db
 		List<Double> listPrices = new ArrayList<>();
 		List<Long> listDates = new ArrayList<>();
 		for (int iter = 0; iter < 10; iter++) {
@@ -57,7 +57,7 @@ public class MongoTests extends MongoUtils {
 			Thread.sleep(100);
 		}
 
-		// insert data
+		// insertion
 		for (int iter = 0; iter < listPrices.size(); iter++) {
 			MongoActions.insertNewPrice(listPrices.get(iter), listDates.get(iter));
 		}
@@ -72,6 +72,7 @@ public class MongoTests extends MongoUtils {
 			listRetrievedDates.add((Long) doc.get(MongoActions.props.getPricetimeField()));
 		}
 
+		// check all the values returned
 		assertEquals(listDates.size(), listRetrievedDates.size());
 		assertEquals(listPrices.size(), listRetrievedPrices.size());
 		for (int iter = 0; iter < listRetrievedPrices.size(); iter++) {
@@ -86,6 +87,7 @@ public class MongoTests extends MongoUtils {
 	 */
 	@Test
 	public void getAverageLastPricesTest() throws Exception {
+		// create data
 		List<Double> listPrices = new ArrayList<>();
 		List<Long> listDates = new ArrayList<>();
 		for (int iter = 0; iter < 5; iter++) {
@@ -98,7 +100,7 @@ public class MongoTests extends MongoUtils {
 			MongoActions.insertNewPrice(listPrices.get(iter), listDates.get(iter));
 		}
 
-		// compare average
+		// compare different average computations of the data
 		assertEquals(MongoActions.getAverageLastPrices(1), listPrices.get(4));
 		assertEquals(MongoActions.getAverageLastPrices(2), new Double((listPrices.get(4) + listPrices.get(3)) / 2));
 		assertEquals(MongoActions.getAverageLastPrices(3),
