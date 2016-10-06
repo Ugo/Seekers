@@ -47,7 +47,7 @@ public class MongoTests extends MongoUtils {
 	 * @throws Exception
 	 */
 	@Test
-	public void insertNewPriceSeveralInsertion() throws Exception {
+	public void insertNewPriceSeveralInsertions() throws Exception {
 		// insert several elements in the db
 		List<Double> listPrices = new ArrayList<>();
 		List<Long> listDates = new ArrayList<>();
@@ -86,7 +86,7 @@ public class MongoTests extends MongoUtils {
 	 * @throws Exception
 	 */
 	@Test
-	public void getAverageLastPricesTest() throws Exception {
+	public void getAverageLastPrices() throws Exception {
 		// create data
 		List<Double> listPrices = new ArrayList<>();
 		List<Long> listDates = new ArrayList<>();
