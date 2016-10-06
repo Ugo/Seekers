@@ -1,7 +1,7 @@
 function GetMember() {
     $('input[type=button]').attr('disabled', true);
-    $('.greeting-id').html('');
-    $('.greeting-content').html('');
+    $('.average-id').html('');
+    $('.average-content').html('');
     $("#MemberDetails").addClass("loading");
     $.ajax({
 		type: "GET",
@@ -9,8 +9,8 @@ function GetMember() {
 		contentType: "application/json; charset=utf-8",
         dataType: "json"
 	}).then(function(data) {
-		$('.greeting-id').append(data.id);
-		$('.greeting-content').append(data.content);
+		$('.average-id').append(data.id);
+		$('.average-content').append(data.content);
 		$('input[type=button]').attr('disabled', false);
 	});
 }
